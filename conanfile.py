@@ -18,15 +18,19 @@ class LibZipConan(ConanFile):
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = "shared=True"
-    requires = "zlib/1.2.11@conan/stable", "bzip2/1.0.6@conan/stable"
+    options = {"shared": [True, False], "with_bzip2": [True, False]}
+    default_options = "shared=True", "with_bzip2=True"
+    requires = "zlib/1.2.11@conan/stable"
 
     def source(self):
         source_url = "https://libzip.org/download"
         tools.get("{0}/{1}-{2}.tar.gz".format(source_url, self.name, self.version))
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self.source_subfolder)
+
+    def requirements(self):
+        if self.options.with_bzip2:
+            self.requires.add("bzip2/1.0.6@conan/stable")
 
     def configure_cmake(self):
         cmake = CMake(self)
@@ -45,4 +49,3 @@ class LibZipConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
-        self.cpp_info.includedirs.append(os.path.join("lib", "libzip", "include"))
