@@ -19,7 +19,7 @@ class LibZipConan(ConanFile):
     build_subfolder = "build_subfolder"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "with_bzip2": [True, False]}
-    default_options = "shared=True", "with_bzip2=True"
+    default_options = "shared=False", "with_bzip2=True"
     requires = "zlib/1.2.11@conan/stable"
 
     def source(self):
@@ -38,7 +38,13 @@ class LibZipConan(ConanFile):
         cmake.configure()
         return cmake
 
+    def exclude_targets(self):
+        excluded_targets = ["regress", "examples", "man"]
+        for target in excluded_targets:
+            tools.replace_in_file(os.path.join(self.source_subfolder, "CMakeLists.txt"), "ADD_SUBDIRECTORY(%s)" % target, "")
+
     def build(self):
+        self.exclude_targets()
         cmake = self.configure_cmake()
         cmake.build()
 
