@@ -1,15 +1,14 @@
-#!/usr/bin/python
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
-
 import os
 
 
 class LibZipConan(ConanFile):
     name = "libzip"
     description = "A C library for reading, creating, and modifying zip archives"
-    version = "1.2.0"
+    version = "1.4.0"
     url = "https://github.com/bincrafters/conan-libzip"
     homepage = "https://github.com/nih-at/libzip"
     license = "BSD"
