@@ -20,7 +20,7 @@ class LibZipConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=True"
-    requires = "zlib/1.2.11@conan/stable"
+    requires = "zlib/1.2.11@conan/stable", "bzip2/1.0.6@conan/stable"
 
     def source(self):
         source_url = "https://libzip.org/download"
@@ -33,7 +33,7 @@ class LibZipConan(ConanFile):
         cmake.definitions["BUILD_SHARED_LIBS"] = self.options.shared
         cmake.configure()
         return cmake
-        
+
     def build(self):
         cmake = self.configure_cmake()
         cmake.build()
@@ -46,4 +46,3 @@ class LibZipConan(ConanFile):
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
         self.cpp_info.includedirs.append(os.path.join("lib", "libzip", "include"))
-   
