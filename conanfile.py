@@ -8,7 +8,7 @@ import os
 class LibZipConan(ConanFile):
     name = "libzip"
     description = "A C library for reading, creating, and modifying zip archives"
-    version = "1.4.0"
+    version = "1.5.1"
     url = "https://github.com/bincrafters/conan-libzip"
     homepage = "https://github.com/nih-at/libzip"
     license = "BSD"
@@ -31,6 +31,9 @@ class LibZipConan(ConanFile):
     def requirements(self):
         if self.options.with_bzip2:
             self.requires.add("bzip2/1.0.6@conan/stable")
+
+        if self.settings.os == "Windows" or self.settings.os == "Linux":
+            self.requires("OpenSSL/[>=1.0]@conan/stable")
 
     def configure_cmake(self):
         cmake = CMake(self)
