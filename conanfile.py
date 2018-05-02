@@ -37,7 +37,7 @@ class LibZipConan(ConanFile):
             self.requires.add("bzip2/1.0.6@conan/stable")
 
         if self.options.with_openssl:
-            self.requires("OpenSSL/[>=1.0]@conan/stable")
+            self.requires.add("OpenSSL/[>=1.0]@conan/stable")
 
     def configure_cmake(self):
         cmake = CMake(self)
